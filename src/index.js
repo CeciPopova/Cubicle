@@ -15,7 +15,7 @@ handlebarsConfig(app);
 dbConnect()
     .then(() => console.log('DB connect successfuly!'))
     .catch(err => {
-        console.log('DB error: ', err);
+        console.log('DB error: ', err.message);
     });
 
 
