@@ -8,7 +8,7 @@ router.get('/create', (req, res) => {
     res.render('cube/create');
 });
 
-router.post('/create', async(req, res) => {
+router.post('/create', async (req, res) => {
     const {
         name,
         description,
@@ -68,4 +68,17 @@ router.post('/:cubeId/delete', async (req, res) => {
     res.redirect('/')
 })
 
+router.get('/:cubeId/edit', async (req, res) => {
+
+    const cube = await cubeManager.getOne(req.params.cubeId).lean()
+    res.render('cube/edit', { cube });
+})
+
+router.post('/:cubeId/edit', async (req, res) => {
+    const cubeData = req.body;
+
+    await cubeManager.update(req.params.cubeId, cubeData);
+
+    res.redirect(`/cubes/${req.params.cubeId}/details`);
+});
 module.exports = router;
