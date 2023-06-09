@@ -1,11 +1,10 @@
-const express = require('express');
 
-const router = express.Router();
+const router = require('express').Router();
 const cubeManager = require('../managers/cubeManager');
 const accessoryManager = require('../managers/accessoryManager')
 
 router.get('/create', (req, res) => {
-    console.log(cubeManager.getAll());
+    //console.log(req.user);
     res.render('create');
 });
 
