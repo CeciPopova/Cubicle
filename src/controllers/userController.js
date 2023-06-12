@@ -36,14 +36,14 @@ router.post('/login', async (req, res, next) => {
 
     res.redirect('/');
 
-  } catch (err) {
-    next(err);
+  } catch (error) {
+    next(error);
   }
 });
 
 router.get('/logout', (req, res) => {
   res.clearCookie('auth');
-  
+
   res.redirect('/');
 });
 
