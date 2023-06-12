@@ -1,43 +1,50 @@
 const router = require('express').Router();
 const userManager = require('../managers/userManager');
-
+const { extraxtErrorMessages } = require('../utils/errorHelpers')
 
 
 router.get('/register', (req, res) => {
-    res.render('users/register');
+  res.render('users/register');
 });
 
-router.post('/register', async(req, res) => {
-    const { username, password, repeatPassword } = req.body;
+router.post('/register', async (req, res) => {
+  const { username, password, repeatPassword } = req.body;
   try {
     await userManager.register({ username, password, repeatPassword });
 
     res.redirect('/users/login');
   } catch (err) {
-    const errorMessages = Object.values(err.errors).map(x => x.message);
-    res.status(404).render('users/register', { errorMessages: errorMessages });
+    const errorMessages = extraxtErrorMessages(err);
+    res.status(404).render('users/register', { errorMessages });
   }
-  
+
 });
 
 router.get('/login', (req, res) => {
-    res.render('users/login');
+  res.render('users/login');
 });
 
 
-router.post('/login', async(req, res) => {
-    const {username, password} = req.body;
+router.post('/login', async (req, res, next) => {
 
+  const { username, password } = req.body;
+
+  try {
     const token = await userManager.login(username, password);
-  
+
     res.cookie('auth', token, { httpOnly: true });
 
     res.redirect('/');
+
+  } catch (err) {
+    next(err);
+  }
 });
 
 router.get('/logout', (req, res) => {
-    res.clearCookie('auth');
-    res.redirect('/');
+  res.clearCookie('auth');
+  
+  res.redirect('/');
 });
 
 module.exports = router;

@@ -11,7 +11,7 @@ const userSchema = new mongoose.Schema({
     },
     password: {
         type: String,
-        required: true,
+        required: [true, 'Password is required!'],
         validate: {
             validator: function(value) {
                 return /^[A-Za-z0-9]+$/.test(value);
@@ -26,7 +26,7 @@ const userSchema = new mongoose.Schema({
 userSchema.virtual('repeatPassword')
 .set(function(value) {
     if (value !== this.password) {
-        throw new mongoose.MongooseError('Password missmatch!');
+        throw new Error('Password missmatch!');
         
     }
 });
