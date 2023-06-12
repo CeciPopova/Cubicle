@@ -19,7 +19,6 @@ router.get('/:cubeId/details', async (req, res) => {
 });
 
 router.get('/create', isAuth, (req, res) => {
-    //console.log(req.user);
     res.render('cube/create');
 });
 
