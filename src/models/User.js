@@ -7,7 +7,10 @@ const userSchema = new mongoose.Schema({
         required: [true,'Username is required!'],
         minLength: [5,'Username is too short!'],
         match: [/^[A-Za-z0-9]+$/, 'Invalid characters!'],
-        unique: true,
+        unique: {
+            value: true,
+            message: 'Username already exists!',
+        }
     },
     password: {
         type: String,
